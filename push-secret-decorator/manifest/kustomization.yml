@@ -1,0 +1,8 @@
+resources:
+- deploy.yaml
+configMapGenerator:
+- name: push-secret-hooks
+  namespace: metacontroller
+  files:
+  - finalize.jsonnet
+  - sync.jsonnet

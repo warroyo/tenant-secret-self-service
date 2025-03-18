@@ -1,0 +1,6 @@
+# Tenant Secret Self Service
+
+This outlines a way to handle secret self service when the multitenant gitops setup describe in the [flux tmc multitenant setup](https://github.com/warroyo/flux-tmc-multitenant) 
+
+One of the challenges with this setup is allows tenants to bootstrap their own secret stores. The process in that repo outlines how to create a cluster wide store, but due to the way that permissions are setup in Azure Key Vault it's not easy to provide tenants access to that cluster wide store to setup their own secrets. This leads to the other approach outlined in that document that describes having tenants setup their own `secretStores` that are namespaced, but this still requires a boostrap secret of some kind usually. The current approach to handling this would be to give the platform admin the secret and have them place it into the cluster wide secret store, this creates a bottle neck. The approach outlined in the rest of this document tackles this problem with a self service setup, allowing tenants to use their existing bootstrap repos to also add bootstrap secrets into the cluster wide store that can then be used to connect to their existing secret stores using extertnal secrets.
+

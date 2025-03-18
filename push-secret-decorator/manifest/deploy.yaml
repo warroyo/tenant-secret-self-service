@@ -1,0 +1,61 @@
+apiVersion: metacontroller.k8s.io/v1alpha1
+kind: DecoratorController
+metadata:
+  name: push-secret-decorator
+spec:
+  resources:
+  - apiVersion: v1
+    resource: secrets
+    labelSelector:
+      matchExpressions:
+      - {key: secret-ss , operator: Exists}
+  attachments:
+  - apiVersion: external-secrets.io/v1alpha1
+    resource: pushsecrets
+  hooks:
+    sync:
+      webhook:
+        url: http://push-secret-decorator.metacontroller/sync
+    finalize:
+      webhook:
+        url: http://push-secret-decorator.metacontroller/finalize
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: push-secret-decorator
+  namespace: metacontroller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: push-secret-decorator
+  template:
+    metadata:
+      labels:
+        app: push-secret-decorator
+    spec:
+      containers:
+      - name: hooks
+        image: metacontroller/jsonnetd:0.1
+        imagePullPolicy: Always
+        workingDir: /hooks
+        volumeMounts:
+        - name: hooks
+          mountPath: /hooks
+      volumes:
+      - name: hooks
+        configMap:
+          name: push-secret-hooks
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: push-secret-decorator
+  namespace: metacontroller
+spec:
+  selector:
+    app: push-secret-decorator
+  ports:
+  - port: 80
+    targetPort: 8080
