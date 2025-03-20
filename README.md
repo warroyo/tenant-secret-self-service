@@ -7,6 +7,8 @@ One of the challenges with this setup is allows tenants to bootstrap their own s
 
 # Architecture
 
+![alt text](images/image.png)
+
 # Pre-Reqs
 
 Ideally this is to be used with the seyup mentioned above in the [flux tmc multitenant setup](https://github.com/warroyo/flux-tmc-multitenant) . However this could be used in any cluster with flux and external secrets. This only needs to be setup in one cluster, in the multitenant setup we refer to the as the infra-ops cluster. 
