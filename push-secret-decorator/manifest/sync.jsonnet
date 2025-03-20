@@ -15,7 +15,7 @@ function(request) {
         "refreshInterval": "10m",
         "secretStoreRefs": [
           {
-            "name": secret.metadata.annotations['env'],
+            "name": secret.metadata.annotations['cluster-store'],
             "kind": "ClusterSecretStore"
           }
         ],
@@ -29,7 +29,7 @@ function(request) {
             "conversionStrategy": "None",
             "match": {
               "remoteRef": {
-                "remoteKey": secret.metadata.annotations['workspace']+ "-" + secret.metadata.name
+                "remoteKey": secret.metadata.name
               }
             }
           }

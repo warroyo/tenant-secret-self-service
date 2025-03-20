@@ -1,0 +1,26 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: sops-age
+  namespace: external-secrets
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: dc1-dev
+    kind: ClusterSecretStore
+  target:
+    name: sops-age
+    creationPolicy: Owner
+  data:
+  - secretKey: age.agekey
+    remoteRef:
+      decodingStrategy: Base64
+      key: sops-age
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretExport
+metadata:
+  name: sops-age
+  namespace: external-secrets
+spec:
+  toNamespace: '*'

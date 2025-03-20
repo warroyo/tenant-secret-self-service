@@ -1,0 +1,47 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ClusterSecretStore
+metadata:
+  name: dc1-dev
+spec:
+  provider:
+    # provider type: azure keyvault
+    azurekv:
+      # azure tenant ID, see: https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-how-to-find-tenant
+      tenantId: "1194df16-3ae0-49aa-b48b-5c4da6e13689"
+      # URL of your vault instance, see: https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates
+      vaultUrl: "https://dc1-dev.vault.azure.net"
+      authSecretRef:
+        # points to the secret that contains
+        # the azure service principal credentials
+        clientId:
+          name: azure-secret-sp
+          key: ClientID
+          namespace: external-secrets
+        clientSecret:
+          name: azure-secret-sp
+          key: ClientSecret
+          namespace: external-secrets
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ClusterSecretStore
+metadata:
+  name: dc2-test
+spec:
+  provider:
+    # provider type: azure keyvault
+    azurekv:
+      # azure tenant ID, see: https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-how-to-find-tenant
+      tenantId: "1194df16-3ae0-49aa-b48b-5c4da6e13689"
+      # URL of your vault instance, see: https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates
+      vaultUrl: "https://dc2-test.vault.azure.net/"
+      authSecretRef:
+        # points to the secret that contains
+        # the azure service principal credentials
+        clientId:
+          name: azure-secret-sp
+          key: ClientID
+          namespace: external-secrets
+        clientSecret:
+          name: azure-secret-sp
+          key: ClientSecret
+          namespace: external-secrets
