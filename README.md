@@ -49,7 +49,7 @@ age-keygen -o age.agekey
 
 2. create the akv secret with the age key
 ```bash
-cat age.agekey |base64  | tr -d '\n' |az keyvault secret set --vault-name "<vault-name>" --name "sops-gpg" --file /dev/stdin
+cat age.agekey |base64  | tr -d '\n' |az keyvault secret set --vault-name "<vault-name>" --name "sops-age" --file /dev/stdin
 ```
 
 3. move the age key to our sops folder
